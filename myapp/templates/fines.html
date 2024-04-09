@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fines</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #buttonContainer {
+            margin-top: 20px;
+        }
+
+        button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Fines</h1>
+
+        <table id="finesTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Transaction ID</th>
+                    <th>Fine Amount</th>
+                    <th>Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Fine data will be inserted here dynamically -->
+            </tbody>
+        </table>
+
+        <div id="buttonContainer">
+            <!-- Add your navigation buttons here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to fetch and populate data for Fines
+        function fetchFinesData() {
+            fetch('http://127.0.0.1:8000/library/fines/')
+                .then(response => response.json())
+                .then(data => {
+                    const finesTableBody = document.querySelector('#finesTable tbody');
+
+                    // Populate the table with Fine data
+                    data.forEach(fine => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${fine.FineID}</td>
+                            <td>${fine.TransactionID}</td>
+                            <td>${fine.FineAmount}</td>
+                            <td>${fine.Paid}</td>
+                        `;
+                        finesTableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching Fines data:', error));
+        }
+
+        // Fetch data for Fines
+        fetchFinesData();
+    </script>
+</body>
+</html>

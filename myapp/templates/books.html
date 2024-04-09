@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #buttonContainer {
+            margin-top: 20px;
+        }
+
+        button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Books</h1>
+
+        <table id="booksTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>ISBN</th>
+                    <th>Author ID</th>
+                    <th>Genre</th>
+                    <th>Published Date</th>
+                    <th>Quantity Available</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Book data will be inserted here dynamically -->
+            </tbody>
+        </table>
+
+        <div id="buttonContainer">
+            <!-- Add your navigation buttons here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to fetch and populate data for Books
+        function fetchBooksData() {
+            fetch('http://127.0.0.1:8000/library/books/')
+                .then(response => response.json())
+                .then(data => {
+                    const booksTableBody = document.querySelector('#booksTable tbody');
+
+                    // Populate the table with Book data
+                    data.forEach(book => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${book.BookID}</td>
+                            <td>${book.Title}</td>
+                            <td>${book.ISBN}</td>
+                            <td>${book.AuthorID}</td>
+                            <td>${book.Genre}</td>
+                            <td>${book.PublishedDate}</td>
+                            <td>${book.QuantityAvailable}</td>
+                        `;
+                        booksTableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching Books data:', error));
+        }
+
+        // Fetch data for Books
+        fetchBooksData();
+    </script>
+</body>
+</html>

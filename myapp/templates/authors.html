@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authors</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #buttonContainer {
+            margin-top: 20px;
+        }
+
+        button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Authors</h1>
+
+        <table id="authorsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Birth Date</th>
+                    <th>Nationality</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Author data will be inserted here dynamically -->
+            </tbody>
+        </table>
+
+        <div id="buttonContainer">
+            <!-- Add your navigation buttons here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to fetch and populate data for Authors
+        function fetchAuthorsData() {
+            fetch('http://127.0.0.1:8000/library/authors/')
+                .then(response => response.json())
+                .then(data => {
+                    const authorsTableBody = document.querySelector('#authorsTable tbody');
+
+                    // Populate the table with Author data
+                    data.forEach(author => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${author.AuthorID}</td>
+                            <td>${author.AuthorName}</td>
+                            <td>${author.BirthDate}</td>
+                            <td>${author.Nationality}</td>
+                        `;
+                        authorsTableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching Authors data:', error));
+        }
+
+        // Fetch data for Authors
+        fetchAuthorsData();
+    </script>
+</body>
+</html>
